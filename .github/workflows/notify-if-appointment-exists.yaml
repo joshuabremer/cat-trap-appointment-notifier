@@ -16,11 +16,21 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const url = 'https://charlestonanimalsocietytvarprogram.as.me/api/scheduling/v1/availability/month?owner=ef088d93&appointmentTypeId=61661387&calendarId=10515025&timezone=America%2FNew_York&month=2024-09-01'
-            const response = await fetch(url);
-            const data = await response.json();
-            const keys = Object.keys(data);
-            return keys.some(key => data[key] === false);
+            // This will look for appointments this month and the two months after
+            for (let i = 0; i < 3; i++) {
+              const today = new Date();
+              const date = new Date(today.setMonth(today.getMonth() + i));
+              console.log('Checking for appointments in ' + date.getFullYear() + '-' + (date.getMonth() + 1));
+              const url = `https://charlestonanimalsocietytvarprogram.as.me/api/scheduling/v1/availability/month?owner=ef088d93&appointmentTypeId=61661387&calendarId=10515025&timezone=America%2FNew_York&month=${date.getFullYear()}-${date.getMonth() + 1}-01`;
+              const response = await fetch(url);
+              const data = await response.json();
+              const keys = Object.keys(data);
+              if (keys.some(key => data[key] === true)) {
+                console.log('Found an appointment!');
+                return 'true';
+              }
+              console.log('No appointments found');
+            }
           result-encoding: string
 
       - name: Send email
@@ -33,6 +43,8 @@ jobs:
           password: ${{secrets.MAIL_PASSWORD}}
           subject: Github Actions job result
           # Literal body:
-          body: Build job of ${{github.repository}} completed successfully!
+          body: |
+            There is an appointment available at Charleston Animal Society to get your the stray cats fixed.
+            Go to https://charlestonanimalsocietytvarprogram.as.me to book it.
           to: joshua.bremer@gmail.com
           from: Joshua Bremer
