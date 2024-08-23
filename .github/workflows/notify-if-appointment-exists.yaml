@@ -17,7 +17,7 @@ jobs:
         with:
           script: |
             const url = 'https://charlestonanimalsocietytvarprogram.as.me/api/scheduling/v1/availability/month?owner=ef088d93&appointmentTypeId=61661387&calendarId=10515025&timezone=America%2FNew_York&month=2024-09-12'
-            const response = await fetch('https://api.example.com/appointments');
+            const response = await fetch(url);
             const data = await response.json();
             const keys = Object.keys(data);
             return keys.some(key => data[key] === true);
