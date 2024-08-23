@@ -37,7 +37,7 @@ jobs:
 
       - name: Send email
         if: ${{ steps.appointment-result.outputs.result == 'true' }}
-        uses: dawidd6/action-send-mail
+        uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
           server_port: 465
