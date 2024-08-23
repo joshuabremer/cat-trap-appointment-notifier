@@ -21,10 +21,10 @@ jobs:
             const data = await response.json();
             const keys = Object.keys(data);
             return keys.some(key => data[key] === true);
-          result-encoding: boolean
+          result-encoding: string
 
       - name: Send email
-        if: ${{ steps.appointment-result.outputs.result }}
+        if: ${{ steps.appointment-result.outputs.result == 'true' }}
         uses: dawidd6/action-send-mail@v2
         with:
           server_address: smtp.gmail.com
