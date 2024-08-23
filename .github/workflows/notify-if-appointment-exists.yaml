@@ -4,8 +4,9 @@ name: Notify if appointment exists
 
 on:
   schedule:
-    - cron: "0 0 * * *"
-  push:
+    # Run every day at 7am ET, 11am ET, 3pm ET, 7pm ET
+    # ET is 4 hours behind UTC
+    - cron: "0 11,15,19,23 * * *"
 
 jobs:
   notify:
@@ -27,7 +28,7 @@ jobs:
               const response = await fetch(url);
               const data = await response.json();
               const keys = Object.keys(data);
-              if (keys.some(key => data[key] === false)) {
+              if (keys.some(key => data[key] === true)) {
                 console.log('Found an appointment!');
                 return 'true';
               }
@@ -48,5 +49,5 @@ jobs:
           body: |
             There is an appointment available at Charleston Animal Society to get your the stray cats fixed.
             Go to https://charlestonanimalsocietytvarprogram.as.me to book it.
-          to: joshua.bremer@gmail.com
+          to: glojobremer@gmail.com
           from: Joshua Bremer
