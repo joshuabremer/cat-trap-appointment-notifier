@@ -21,13 +21,15 @@ jobs:
               const today = new Date();
               const date = new Date(today.setMonth(today.getMonth() + i));
               console.log('Checking for appointments in ' + date.getFullYear() + '-' + (date.getMonth() + 1));
+
               const url = `https://charlestonanimalsocietytvarprogram.as.me/api/scheduling/v1/availability/month?owner=ef088d93&appointmentTypeId=61661387&calendarId=10515025&timezone=America%2FNew_York&month=${date.getFullYear()}-${date.getMonth() + 1}-01`;
+
               const response = await fetch(url);
               const data = await response.json();
               const keys = Object.keys(data);
               if (keys.some(key => data[key] === true)) {
                 console.log('Found an appointment!');
-                return 'true';
+                return 'false';
               }
               console.log('No appointments found');
             }
