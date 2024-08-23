@@ -7,6 +7,7 @@ on:
     # Run every day at 7am ET, 11am ET, 3pm ET, 7pm ET
     # ET is 4 hours behind UTC
     - cron: "0 11,15,19,23 * * *"
+  workflow_dispatch:
 
 jobs:
   notify:
