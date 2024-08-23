@@ -27,9 +27,9 @@ jobs:
               const response = await fetch(url);
               const data = await response.json();
               const keys = Object.keys(data);
-              if (keys.some(key => data[key] === true)) {
+              if (keys.some(key => data[key] === false)) {
                 console.log('Found an appointment!');
-                return 'false';
+                return 'true';
               }
               console.log('No appointments found');
             }
