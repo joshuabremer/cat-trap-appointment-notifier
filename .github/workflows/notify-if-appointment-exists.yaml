@@ -27,6 +27,9 @@ jobs:
               const url = `https://charlestonanimalsocietytvarprogram.as.me/api/scheduling/v1/availability/month?owner=ef088d93&appointmentTypeId=61661387&calendarId=10515025&timezone=America%2FNew_York&month=${date.getFullYear()}-${date.getMonth() + 1}-01`;
 
               const response = await fetch(url);
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
               const data = await response.json();
               const keys = Object.keys(data);
               if (keys.some(key => data[key] === true)) {
